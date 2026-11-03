@@ -1,0 +1,39 @@
+---
+import { site } from '../data/site';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#inicio" aria-label="Dra. Geovana Batista, início">
+      <span class="brand-mark" aria-hidden="true">G</span>
+      <span class="brand-copy">
+        <span class="brand-name">Geovana Batista</span>
+        <span class="brand-role">Fisioterapia</span>
+      </span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Abrir menu de navegação"
+      aria-expanded="false"
+      aria-controls="site-navigation"
+      data-menu-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-navigation" id="site-navigation" data-site-navigation aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#atendimento">Atendimento</a>
+      <a href="#localizacao">Localização</a>
+      <a href="#contato">Contato</a>
+      <a class="button button-small" href={site.links.whatsapp} target="_blank" rel="noopener noreferrer">
+        Agendar pelo WhatsApp
+      </a>
+    </nav>
+  </div>
+</header>

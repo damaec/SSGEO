@@ -1,0 +1,168 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import { site } from '../data/site';
+import { getPublicBaseUrl } from '../data/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = site.pageTitle,
+  description = site.description,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+const publicBaseUrl = getPublicBaseUrl(Astro.site);
+const socialImage = new URL('images/og-card.webp', publicBaseUrl);
+const practiceId = site.url + '/#practice';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': practiceId,
+      name: site.name,
+      url: site.url,
+      image: socialImage.href,
+      description: site.description,
+      telephone: site.phone,
+      email: site.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.address.streetAddress,
+        addressLocality: site.address.city,
+        addressRegion: site.address.region,
+        postalCode: site.address.postalCode,
+        addressCountry: site.address.country,
+      },
+    },
+    {
+      '@type': 'Person',
+      '@id': site.url + '/#geovana-batista',
+      name: site.name,
+      jobTitle: site.role,
+      image: new URL('images/geovana-batista.webp', publicBaseUrl).href,
+      worksFor: { '@id': practiceId },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f6f7f4" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" type="image/svg+xml" href={basePath + 'favicon.svg'} />
+    <link rel="preload" as="image" href={basePath + 'images/consultorio-tatuape.webp'} fetchpriority="high" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={socialImage.href} />
+    <meta property="og:image:alt" content="Consultório da Dra. Geovana Batista no Tatuapé" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage.href} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <SiteHeader />
+    <main id="conteudo">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="brand brand-footer" href="#inicio" aria-label="Dra. Geovana Batista, voltar ao início">
+          <span class="brand-mark" aria-hidden="true">G</span>
+          <span class="brand-copy">
+            <span class="brand-name">Geovana Batista</span>
+            <span class="brand-role">Fisioterapia</span>
+          </span>
+        </a>
+        <p>Atendimento individualizado no Tatuapé, São Paulo.</p>
+        <span>© {new Date().getFullYear()} Dra. Geovana Batista</span>
+      </div>
+    </footer>
+
+    <a
+      class="whatsapp-float"
+      href={site.links.whatsapp}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Fale com a Dra. Geovana Batista pelo WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.9L.2 24l6.5-1.7a11.8 11.8 0 0 0 5.4 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.4Zm-8.4 18.2a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.8 1 1-3.7-.3-.4a9.8 9.8 0 1 1 8.5 4.7Zm5.4-7.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.4.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5s-.7-1.6-.9-2.1c-.2-.5-.5-.5-.7-.5H8c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.6-.3Z" />
+      </svg>
+    </a>
+
+    <script>
+      document.documentElement.classList.add('js-enabled');
+
+      const menuToggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const siteNavigation = document.querySelector<HTMLElement>('[data-site-navigation]');
+      const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealTargets.forEach((target) => target.classList.add('is-visible'));
+      } else {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.12,
+            rootMargin: '0px 0px -8% 0px',
+          },
+        );
+
+        revealTargets.forEach((target) => revealObserver.observe(target));
+      }
+
+      menuToggle?.addEventListener('click', () => {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', String(!isExpanded));
+        menuToggle.setAttribute(
+          'aria-label',
+          isExpanded ? 'Abrir menu de navegação' : 'Fechar menu de navegação',
+        );
+        siteNavigation?.classList.toggle('is-open', !isExpanded);
+      });
+
+      siteNavigation?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          menuToggle?.setAttribute('aria-expanded', 'false');
+          menuToggle?.setAttribute('aria-label', 'Abrir menu de navegação');
+          siteNavigation.classList.remove('is-open');
+        });
+      });
+    </script>
+  </body>
+</html>
