@@ -1061,6 +1061,12 @@ html.js-enabled [data-reveal].is-visible {
 
 }
 
+@media (max-width: 360px) {
+  .whatsapp-float {
+    right: 2rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
