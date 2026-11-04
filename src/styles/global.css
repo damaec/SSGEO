@@ -871,7 +871,7 @@ html.js-enabled [data-reveal].is-visible {
     top: calc(100% + 0.5rem);
     right: 1rem;
     left: 1rem;
-    display: none;
+    display: grid;
     align-items: stretch;
     gap: 0;
     padding: 0.7rem;
@@ -879,10 +879,23 @@ html.js-enabled [data-reveal].is-visible {
     border-radius: 1rem;
     background: var(--color-paper);
     box-shadow: 0 1rem 2rem rgb(36 57 21 / 13%);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.4rem) scale(0.99);
+    transform-origin: top center;
+    visibility: hidden;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 0s linear 180ms;
   }
 
   .site-navigation.is-open {
-    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    transition-delay: 0s;
   }
 
   .site-navigation > a:not(.button) {
@@ -1061,6 +1074,10 @@ html.js-enabled [data-reveal].is-visible {
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
+    transition: none !important;
+  }
+
+  .site-navigation {
     transition: none !important;
   }
 }
