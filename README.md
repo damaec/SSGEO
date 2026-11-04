@@ -4,19 +4,17 @@ Sitio estático creado con Astro.
 
 ## Requisitos
 
-- NVM
+- Node.js 22.23.4 o superior
 - npm
 
 ## Ejecutar en local
 
 ```bash
-nvm install
-nvm use
 npm ci
 npm run dev
 ```
 
-`nvm install` y `nvm use` seleccionan la versión de Node definida en `.nvmrc` solo para esta terminal. Abre en el navegador la dirección local que Astro muestra en la terminal.
+Abre en el navegador la dirección local que Astro muestra en la terminal. Si usas NVM, `.nvmrc` indica la versión del proyecto; puedes activarla con `nvm install` y `nvm use`.
 
 ## Compilar
 
