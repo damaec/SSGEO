@@ -372,10 +372,15 @@ button:focus-visible {
   content: "";
 }
 
-.portrait img {
-  width: 100%;
+.portrait-frame {
+  overflow: hidden;
   aspect-ratio: 4 / 5;
   border-radius: 1rem 1rem 4rem 1rem;
+}
+
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center 36%;
 }
@@ -400,6 +405,11 @@ button:focus-visible {
   color: var(--color-forest);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.08rem;
+}
+
+.portrait-caption-role,
+.portrait-caption-location {
+  line-height: 1.45;
 }
 
 .about-copy h2,
@@ -920,8 +930,43 @@ html.js-enabled [data-reveal].is-visible {
   }
 
   .portrait {
-    width: min(82%, 25rem);
+    width: min(100%, 25rem);
     margin-inline: auto;
+  }
+
+  .portrait-frame {
+    aspect-ratio: 5 / 4;
+  }
+
+  .portrait-frame img {
+    object-position: center 28%;
+  }
+
+  .portrait figcaption {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    gap: 0.15rem;
+    min-width: 0;
+    padding: 3.75rem 1rem 0.9rem;
+    border: 0;
+    border-radius: 0 0 2.5rem 0.75rem;
+    background: linear-gradient(transparent, rgb(24 39 24 / 84%));
+    box-shadow: none;
+    color: rgb(255 255 255 / 86%);
+  }
+
+  .portrait-caption-name {
+    color: white;
+    font-size: 1.15rem;
+  }
+
+  .portrait-caption-location {
+    font-size: 0.76rem;
+  }
+
+  .about-grid {
+    gap: 2.25rem;
   }
 
   .about-copy h2,
@@ -1001,11 +1046,6 @@ html.js-enabled [data-reveal].is-visible {
     font-size: 0.72rem;
   }
 
-  .portrait figcaption {
-    right: -0.5rem;
-    bottom: 1.7rem;
-    min-width: 11rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
